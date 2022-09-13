@@ -1,0 +1,38 @@
+#uselib "user32.dll"
+#func SetLayered "SetLayeredWindowAttributes" int, int, int, int
+#func SetWindowLong "SetWindowLongA" int, int, int
+#func MessageBox "MessageBoxA" int, sptr, sptr, int
+#cfunc GetWindowLong "GetWindowLongA" int, int, int
+#define ctype RGB(%1 = 0, %2 = 0, %3 = 0) (int(%1) | int(%2)<<8 | int(%3)<<16)
+#func SetLayeredWindowAttributes "SetLayeredWindowAttributes" int,int,int,int
+#const LWA_COLORKEY 1
+#const LWA_ALPHA 2 
+#const GWL_EXSTYLE -20 
+#const WS_EX_LAYERED $00080000 
+
+dx = ginfo(20) 
+dy = ginfo(21) 
+chgdisp 1,dx,dy
+bgscr 0,dx,dy,,0,0
+alpha = 1 
+SetWindowLong hwnd,-20,WS_EX_LAYERED
+SetLayeredWindowAttributes hwnd,0,alpha,LWA_ALPHA
+onclick *jump
+stop
+*jump
+dialog "はっきり言って邪魔！害悪！出ろ！",1,"ダル..."
+repeat 5
+
+//定数名の定義
+#define MB_OK         0x0000000
+#define MB_ICONEXCLAMATION  0x00000030
+#define IDOK                0x00000001
+
+//MSGBOXを表示
+msgTitile = "ダル..."
+msgText = "はっきり言って邪魔！害悪！出ろ！"
+MessageBox hwnd, msgText, msgTitile, MB_OKCANCEL | MB_ICONEXCLAMATION
+
+loop
+stop
+end
